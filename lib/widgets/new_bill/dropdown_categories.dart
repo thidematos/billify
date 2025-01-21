@@ -1,19 +1,22 @@
 import 'package:billify/data/enums.dart';
+import 'package:billify/providers/form_provider.dart';
 import 'package:billify/themes/typography_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DropdownCategories extends StatefulWidget {
+class DropdownCategories extends ConsumerStatefulWidget {
   const DropdownCategories({super.key});
 
   @override
-  State<DropdownCategories> createState() => _DropdownCategories();
+  ConsumerState<DropdownCategories> createState() => _DropdownCategories();
 }
 
-class _DropdownCategories extends State<DropdownCategories> {
-  Categories _selectedCategory = Categories.alimentacao;
-
+class _DropdownCategories extends ConsumerState<DropdownCategories> {
   @override
   Widget build(BuildContext context) {
+    final Categories currentCategory =
+        ref.watch(FormProvider)[MapKeys.categoria] as Categories;
+
     return DropdownButtonFormField(
       decoration: InputDecoration(
         label: Text('Categoria', style: TypographyTheme.label),
@@ -30,11 +33,11 @@ class _DropdownCategories extends State<DropdownCategories> {
           )
       ],
       onChanged: (value) {
-        setState(() {
-          _selectedCategory = value!;
-        });
+        ref
+            .read(FormProvider.notifier)
+            .changeInputValue(MapKeys.categoria, value);
       },
-      value: _selectedCategory,
+      value: currentCategory,
     );
   }
 }

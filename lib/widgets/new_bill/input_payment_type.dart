@@ -1,25 +1,23 @@
+import 'package:billify/providers/form_provider.dart';
 import 'package:billify/themes/color_theme.dart';
 import 'package:billify/themes/typography_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class InputPaymentType extends StatefulWidget {
+class InputPaymentType extends ConsumerStatefulWidget {
   const InputPaymentType({super.key});
 
   @override
-  State<InputPaymentType> createState() => _InputPaymentTypeState();
+  ConsumerState<InputPaymentType> createState() => _InputPaymentTypeState();
 }
 
-class _InputPaymentTypeState extends State<InputPaymentType> {
-  bool _isRecurrent = false;
-
-  void changeIsRecurrent(status) {
-    setState(() {
-      _isRecurrent = status;
-    });
-  }
-
+class _InputPaymentTypeState extends ConsumerState<InputPaymentType> {
   @override
   Widget build(BuildContext context) {
+    final bool _isRecurrent =
+        ref.watch(FormProvider)[MapKeys.type] as ValidTypes ==
+            ValidTypes.recorrente;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: 8,
@@ -50,7 +48,11 @@ class _InputPaymentTypeState extends State<InputPaymentType> {
               ),
               width: 150,
               child: InkWell(
-                onTap: () => changeIsRecurrent(false),
+                onTap: () {
+                  ref
+                      .read(FormProvider.notifier)
+                      .changeInputValue(MapKeys.type, ValidTypes.unico);
+                },
                 child: Text(
                   'Único'.toUpperCase(),
                   textAlign: TextAlign.center,
@@ -80,7 +82,11 @@ class _InputPaymentTypeState extends State<InputPaymentType> {
               ),
               width: 150,
               child: InkWell(
-                onTap: () => changeIsRecurrent(true),
+                onTap: () {
+                  ref
+                      .read(FormProvider.notifier)
+                      .changeInputValue(MapKeys.type, ValidTypes.recorrente);
+                },
                 child: Text(
                   'Recorrente'.toUpperCase(),
                   textAlign: TextAlign.center,
