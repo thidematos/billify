@@ -9,7 +9,8 @@ enum MapKeys {
   type,
   vencimento,
   recorrencia,
-  vencimentoDay
+  vencimentoDay,
+  fcmToken,
 }
 
 enum ValidTypes { unico, recorrente }
@@ -24,7 +25,7 @@ class FormNotifier extends StateNotifier<Map<MapKeys, Object>> {
           MapKeys.categoria: Categories.moradia,
           MapKeys.obs: '',
           MapKeys.type: ValidTypes.unico,
-          MapKeys.vencimento: DateTime.now(),
+          MapKeys.vencimento: false,
           MapKeys.recorrencia: Intervals.mensal,
           MapKeys.vencimentoDay: 1,
         });

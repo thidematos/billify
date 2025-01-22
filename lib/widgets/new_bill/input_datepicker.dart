@@ -10,8 +10,7 @@ class InputDatepicker extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    DateTime? selectedDate =
-        ref.watch(FormProvider)[MapKeys.vencimento] as DateTime;
+    var selectedDate = ref.watch(FormProvider)[MapKeys.vencimento];
     final tenYearsAhead = DateTime(
         DateTime.now().year + 10, DateTime.now().month, DateTime.now().day);
 
@@ -26,9 +25,8 @@ class InputDatepicker extends ConsumerWidget {
         locale: const Locale('pt', 'BR'),
       );
 
-      ref
-          .read(FormProvider.notifier)
-          .changeInputValue(MapKeys.vencimento, selectedDate!.toLocal());
+      ref.read(FormProvider.notifier).changeInputValue(
+          MapKeys.vencimento, (selectedDate! as DateTime).toLocal());
     }
 
     return Column(

@@ -1,10 +1,6 @@
-import 'dart:convert';
 import 'package:billify/data/enums.dart';
-import 'package:billify/models/bill.dart';
-import 'package:billify/providers/bills_provider.dart';
+import 'package:billify/providers/fcmProvider.dart';
 import 'package:billify/providers/form_provider.dart';
-import 'package:billify/themes/color_theme.dart';
-import 'package:billify/themes/typography_theme.dart';
 import 'package:billify/ui/space_24.dart';
 import 'package:billify/widgets/new_bill/dropdown_categories.dart';
 import 'package:billify/widgets/new_bill/input_conta.dart';
@@ -16,7 +12,6 @@ import 'package:billify/widgets/new_bill/input_valor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class CreateBill extends ConsumerStatefulWidget {
   const CreateBill({super.key});
@@ -30,6 +25,7 @@ class _CreateBillState extends ConsumerState<CreateBill> {
 
   void submitForm() async {
     _formKey.currentState!.save();
+
     final Map<MapKeys, Object> formValues = ref.read(FormProvider);
     final String conta = formValues[MapKeys.conta] as String;
     final double valor = formValues[MapKeys.valor] as double;
@@ -46,6 +42,7 @@ class _CreateBillState extends ConsumerState<CreateBill> {
       MapKeys.categoria.name: categoria.name,
       MapKeys.obs.name: obs,
       MapKeys.type.name: type.name,
+      'fcm_token': ref.read(FcmProvider),
     };
 
     if (type == ValidTypes.unico) {
@@ -69,11 +66,11 @@ class _CreateBillState extends ConsumerState<CreateBill> {
 
   @override
   Widget build(BuildContext context) {
-    final bool _isRecurrent =
+    final bool isRecurrent =
         ref.watch(FormProvider)[MapKeys.type] as ValidTypes ==
             ValidTypes.recorrente;
     final Widget content =
-        _isRecurrent ? InputRecurrentDay() : InputDatepicker();
+        isRecurrent ? InputRecurrentDay() : InputDatepicker();
 
     return Expanded(
       child: Form(
@@ -112,10 +109,3 @@ class _CreateBillState extends ConsumerState<CreateBill> {
     );
   }
 }
-
-/* Descrição da conta (ex: aluguel, água, luz)
-Data de vencimento
-Valor da conta
-Frequência (única, mensal, bimestral, etc.)
-Categoria (opcional)
-Observações (opcional) */

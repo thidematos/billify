@@ -1,8 +1,10 @@
+import 'package:billify/providers/fcmProvider.dart';
 import 'package:billify/screens/loading_screen.dart';
 import 'package:billify/screens/tabs_screen.dart';
 import 'package:billify/themes/geral_theme.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,45 +14,51 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  await FirebaseMessaging.instance.requestPermission();
-
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-
-  if (fcmToken != null) {
-    print(fcmToken);
-  }
-
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<MyApp> createState() {
     return _MyAppState();
   }
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   bool isLoading = true;
 
   @override
   void initState() {
-    initSupabase();
     super.initState();
+    initSupabase();
+    initFirebase();
+  }
+
+  Future<void> initFirebase() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    await FirebaseMessaging.instance.requestPermission();
+
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+
+    if (fcmToken != null) {
+      ref.read(FcmProvider.notifier).addFcm(fcmToken);
+      print(fcmToken);
+    }
   }
 
   Future<void> initSupabase() async {
+    await dotenv.load(fileName: '.env');
+
     await Supabase.initialize(
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJheGl2ZWVyc2NuYXlnbm5lbXRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc0NzEzMDcsImV4cCI6MjA1MzA0NzMwN30.mdDCqKzr1v1Shs5J-yyXVmDLrr1QQr8Ei-PHLHam2q4',
-      url: 'https://baxiveerscnaygnnemto.supabase.co',
+      anonKey: dotenv.env['SUPABASE_ANOM_KEY']!,
+      url: dotenv.env['SUPABASE_URL']!,
     );
+
     setState(() {
       isLoading = false;
     });

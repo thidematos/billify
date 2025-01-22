@@ -10,7 +10,11 @@ class LoadingScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Logo(), CircularProgressIndicator()],
+        spacing: 48,
+        children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [Logo()]),
+          CircularProgressIndicator()
+        ],
       ),
     );
   }
