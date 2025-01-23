@@ -21,25 +21,24 @@ class ToBePaid extends ConsumerWidget {
           return a['vencimento'] - b['vencimento'];
         });
 
-        return Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
-            children: [
-              Text('Vencimento próximo', style: TypographyTheme.homeSubtitle),
-              Container(
-                height: 125,
-                child: Scrollbar(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: toExpire.length,
-                    itemBuilder: (ctx, index) => ToBePaidCard(toExpire[index]),
-                  ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 16,
+          children: [
+            Text('Vencimento próximo', style: TypographyTheme.homeSubtitle),
+            Container(
+              height: 125,
+              child: Scrollbar(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: toExpire.length,
+                  itemBuilder: (ctx, index) => ToBePaidCard(toExpire[index]),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
       error: (error, stackTrace) => Text('There was an error!'),

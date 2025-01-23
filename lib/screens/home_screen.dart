@@ -1,6 +1,7 @@
 import 'package:billify/providers/bills_provider.dart';
 import 'package:billify/themes/color_theme.dart';
 import 'package:billify/themes/typography_theme.dart';
+import 'package:billify/widgets/home/containers/dashboard_resume.dart';
 import 'package:billify/widgets/home/containers/resumes.dart';
 import 'package:billify/widgets/home/containers/to_be_paid.dart';
 import 'package:billify/widgets/ui/logo.dart';
@@ -61,6 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Welcome(),
           Resumes(),
           ToBePaid(),
+          DashboardResume(),
         ],
       ),
       error: (error, stackTrace) => Text('There was an error!'),

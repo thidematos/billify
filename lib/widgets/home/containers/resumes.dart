@@ -1,6 +1,7 @@
 import 'package:billify/data/months.dart';
 import 'package:billify/providers/bills_provider.dart';
 import 'package:billify/themes/typography_theme.dart';
+import 'package:billify/utils/get_cur_month_bills.dart';
 import 'package:billify/widgets/home/resume_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,19 +10,11 @@ class Resumes extends ConsumerWidget {
   const Resumes({super.key});
 
   double calculateTotals(List bills) {
-    final values = bills
-        .where(
-          (bill) =>
-              DateTime.fromMillisecondsSinceEpoch(bill['vencimento']).month ==
-              DateTime.now().month,
-        )
-        .map((item) => item['valor'])
-        .toList();
+    final List monthlyBills = getCurMonthBills(bills);
+    final values = monthlyBills.map((item) => item['valor']).toList();
 
     final double total = values.reduce((acc, item) => acc + item);
 
-    print(total);
-    print(values);
     return total;
   }
 

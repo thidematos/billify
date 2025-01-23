@@ -30,6 +30,7 @@ class ToBePaidCard extends StatelessWidget {
       width: 125,
       margin: const EdgeInsets.symmetric(horizontal: 2),
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Column(
           spacing: 4,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +42,7 @@ class ToBePaidCard extends StatelessWidget {
               ),
             ),
             Icon(
-              categoriesWithIcons[bill['categoria']],
+              categoriesWithIcons[bill['categoria']]!['icon'] as IconData,
               size: 36,
               color: iconColor,
               shadows: [
