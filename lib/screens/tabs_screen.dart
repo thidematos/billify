@@ -1,14 +1,9 @@
-import 'package:billify/models/bill.dart';
-import 'package:billify/providers/bills_provider.dart';
 import 'package:billify/screens/home_screen.dart';
 import 'package:billify/screens/new_bill.dart';
 import 'package:billify/themes/color_theme.dart';
-import 'package:billify/themes/typography_theme.dart';
-import 'package:billify/ui/logo.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:billify/widgets/ui/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -33,7 +28,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       appBar: AppBar(
         title: Logo(),
       ),
-      body: content,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: content,
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorTheme.mainBlue,
         shape: CircleBorder(),

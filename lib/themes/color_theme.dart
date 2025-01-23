@@ -9,6 +9,10 @@ class ColorTheme {
   static Color secondaryBlue = const Color.fromARGB(255, 78, 199, 255);
   static Color tertiaryBlue = const Color.fromARGB(255, 49, 132, 170);
   static Color mainWhite = const Color.fromARGB(255, 250, 250, 250);
+  static Color secondaryWhite = const Color.fromARGB(255, 219, 225, 239);
   static Color borderBlack = const Color.fromARGB(68, 121, 121, 121);
   static Color validatedGreen = const Color.fromARGB(255, 85, 197, 88);
+  static Color errorRed = const Color.fromARGB(255, 199, 54, 44);
+  static Color dangerYellow = const Color.fromARGB(255, 196, 181, 45);
+  static Color secureOrange = const Color.fromARGB(255, 199, 120, 0);
 }

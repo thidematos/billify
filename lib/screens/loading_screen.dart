@@ -1,4 +1,4 @@
-import 'package:billify/ui/logo.dart';
+import 'package:billify/widgets/ui/logo.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {

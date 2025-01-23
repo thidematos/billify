@@ -2,11 +2,8 @@ import 'package:billify/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 final ThemeData kGeralTheme = ThemeData().copyWith(
-  iconTheme: IconThemeData().copyWith(
-    shadows: [
-      Shadow(color: ColorTheme.black, offset: Offset(3, 5), blurRadius: 50),
-    ],
-  ),
+  scaffoldBackgroundColor: ColorTheme.secondaryWhite,
+  iconTheme: IconThemeData().copyWith(),
   inputDecorationTheme: InputDecorationTheme().copyWith(
     //contentPadding: const EdgeInsets.all(2),
     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -22,9 +19,11 @@ final ThemeData kGeralTheme = ThemeData().copyWith(
       ),
     ),
   ),
+  cardTheme: CardTheme().copyWith(
+    color: const Color.fromARGB(255, 249, 249, 249),
+  ),
   appBarTheme: AppBarTheme().copyWith(
-    elevation: 50,
-    toolbarHeight: 100,
-    backgroundColor: ColorTheme.mainWhite,
+    toolbarHeight: 75,
+    backgroundColor: ColorTheme.secondaryWhite,
   ),
 );

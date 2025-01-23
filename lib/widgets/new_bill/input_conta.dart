@@ -1,10 +1,11 @@
+import 'package:billify/data/enums.dart';
 import 'package:billify/providers/form_provider.dart';
 import 'package:billify/themes/typography_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class InputConta extends ConsumerWidget {
-  InputConta({super.key});
+  const InputConta({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

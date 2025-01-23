@@ -24,4 +24,14 @@ class TypographyTheme {
     color: ColorTheme.mainWhite,
     fontSize: 18,
   );
+
+  static TextStyle homeTitle = GoogleFonts.inter(
+    color: ColorTheme.black,
+    fontWeight: FontWeight.w900,
+    fontSize: 18,
+  );
+
+  static TextStyle homeSubtitle = homeTitle.copyWith(
+    fontSize: 16,
+  );
 }

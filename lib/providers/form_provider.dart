@@ -1,22 +1,6 @@
 import 'package:billify/data/enums.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum MapKeys {
-  conta,
-  valor,
-  categoria,
-  obs,
-  type,
-  vencimento,
-  recorrencia,
-  vencimentoDay,
-  fcmToken,
-}
-
-enum ValidTypes { unico, recorrente }
-
-enum Intervals { mensal, trimestral, semestral, anual }
-
 class FormNotifier extends StateNotifier<Map<MapKeys, Object>> {
   FormNotifier()
       : super({

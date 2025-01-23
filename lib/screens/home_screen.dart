@@ -1,6 +1,10 @@
+import 'package:billify/providers/bills_provider.dart';
 import 'package:billify/themes/color_theme.dart';
 import 'package:billify/themes/typography_theme.dart';
-import 'package:billify/ui/logo.dart';
+import 'package:billify/widgets/home/containers/resumes.dart';
+import 'package:billify/widgets/home/containers/to_be_paid.dart';
+import 'package:billify/widgets/ui/logo.dart';
+import 'package:billify/widgets/ui/welcome.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,15 +23,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isLoading = true;
   List bills = [];
-
-  Future<void> getBills() async {
-    final data = await Supabase.instance.client.from('bills').select();
-
-    setState(() {
-      bills = data;
-      isLoading = false;
-    });
-  }
 
   void initFirebaseNotification() {
     FirebaseMessaging.onMessage.listen(
@@ -52,21 +47,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     initFirebaseNotification();
-    getBills();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+    var bills = ref.watch(fetchBillsProvider);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [Logo()],
+    return bills.when(
+      data: (data) => Column(
+        spacing: 24,
+        children: [
+          Welcome(),
+          Resumes(),
+          ToBePaid(),
+        ],
+      ),
+      error: (error, stackTrace) => Text('There was an error!'),
+      loading: () => Center(child: CircularProgressIndicator()),
     );
   }
 }

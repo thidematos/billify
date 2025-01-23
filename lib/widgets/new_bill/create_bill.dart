@@ -1,7 +1,9 @@
 import 'package:billify/data/enums.dart';
+import 'package:billify/providers/bills_provider.dart';
 import 'package:billify/providers/fcmProvider.dart';
 import 'package:billify/providers/form_provider.dart';
-import 'package:billify/ui/space_24.dart';
+import 'package:billify/utils/verify_expiration.dart';
+import 'package:billify/widgets/ui/space_24.dart';
 import 'package:billify/widgets/new_bill/dropdown_categories.dart';
 import 'package:billify/widgets/new_bill/input_conta.dart';
 import 'package:billify/widgets/new_bill/input_datepicker.dart';
@@ -45,19 +47,34 @@ class _CreateBillState extends ConsumerState<CreateBill> {
       'fcm_token': ref.read(FcmProvider),
     };
 
+    Map<String, bool>? verifications;
+
     if (type == ValidTypes.unico) {
+      final DateTime parsedVencimento = vencimento as DateTime;
+
       toPost.addEntries({
         MapKeys.vencimento.name:
-            (vencimento as DateTime).millisecondsSinceEpoch as Object
+            parsedVencimento.millisecondsSinceEpoch as Object
       }.entries);
+
+      verifications = verifyExpirationUnique(parsedVencimento);
+
+      toPost.addEntries(verifications.entries);
     } else {
       toPost.addEntries({
         MapKeys.vencimentoDay.name: vencimentoDay as Object,
         MapKeys.recorrencia.name: recorrencia.name as Object
       }.entries);
+      //Não há nenhuma lógica para handle com a recorrência ainda.
+      verifications = verifyExpirationRecurrent(vencimentoDay!);
+      toPost.addEntries(verifications.entries);
     }
 
+    print(toPost);
+
     await Supabase.instance.client.from('bills').insert(toPost);
+
+    ref.invalidate(fetchBillsProvider);
 
     if (context.mounted) {
       Navigator.of(context).pop();

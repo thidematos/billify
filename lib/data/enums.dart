@@ -1,6 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
 
-enum Frequency { mensal, trimestral, bimestral, anual }
+enum MapKeys {
+  conta,
+  valor,
+  categoria,
+  obs,
+  type,
+  vencimento,
+  recorrencia,
+  vencimentoDay,
+  fcmToken,
+}
+
+enum ValidTypes { unico, recorrente }
+
+enum Intervals { mensal, trimestral, semestral, anual }
 
 enum Categories {
   moradia('Moradia'),
